@@ -1,22 +1,52 @@
 package com.desudesu;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.slidingmenu.lib.SlidingMenu.OnOpenListener;
+
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnLongClickListener;
 
 public class Main extends BaseActivity {
 	//Expandable list fragment that switches between the chan, boards and threads data
 	ContentListFragment cContent;
-	
+	BehindAdapter bAdapter;
+	List<Board> favBoards; //Really should be List<Board> but java is lame
+	//List<ThreadChan> watchThreads;
+
 	public Main() {
 		super(R.string.content_title);
+	}
+
+	private void updateBehind(){
+		//May want to put this in an AsyncTask
+		DataHandler dh = new DataHandler(this);
+		favBoards = dh.GetFavBoards(); //May want to cache these using favBoards, then check whether they've changed to improve performance
+		mFrag.setListAdapter(new BehindAdapter(this,R.layout.item_behind_favchan,favBoards));
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// set the Behind View
+		setBehindContentView(R.layout.menu_frame);
+		FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
+		favBoards = new ArrayList<Board>();
+		mFrag = new ListFragment();
+		t.replace(R.id.menu_frame, mFrag);
+		t.commit();
+		updateBehind();
+		getSlidingMenu().setOnOpenListener(new OnOpenListener(){
+			public void onOpen() {
+				//TODO: Put this in a AsyncTask to increase performance
+				updateBehind();
+			}
+		});
 
 		cContent = new ContentListFragment();
 		// set the Above View
@@ -28,6 +58,8 @@ public class Main extends BaseActivity {
 
 		setSlidingActionBarEnabled(true);
 	}
+
+
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {

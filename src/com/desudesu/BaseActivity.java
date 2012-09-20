@@ -29,14 +29,7 @@ public class BaseActivity extends SlidingFragmentActivity {
 		super.onCreate(savedInstanceState);
 		
 		setTitle(mTitleRes);
-
-		// set the Behind View
-		setBehindContentView(R.layout.menu_frame);
-		FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-		mFrag = new ListFragment();
-		t.replace(R.id.menu_frame, mFrag);
-		t.commit();
-
+		
 		// customize the SlidingMenu
 		SlidingMenu sm = getSlidingMenu();
 		sm.setShadowWidthRes(R.dimen.shadow_width);

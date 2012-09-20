@@ -52,9 +52,14 @@ public class ContentListFragment extends ExpandableListFragment {
 	
 	@Override
     public void OnGroupClick(int groupPosition, Object data){
+		//Change level on item click
 		switch(currentLevel){
 		case 0:
 			setLevel(1,((Chan) data).getChanName(),"",0);
+			return;
+		case 1:
+			setLevel(2,((Board) data).getChanName(),((Board) data).getBoardName(),0);
+			return;
 		}
     };
     

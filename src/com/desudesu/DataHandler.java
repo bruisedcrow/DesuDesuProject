@@ -81,6 +81,27 @@ public class DataHandler {
 		return sortData(chan_data);
 
 	}
+	
+	public List<Board> GetFavBoards(){
+		SharedPreferences prefs = context.getSharedPreferences(
+				"com.desudesu", Context.MODE_PRIVATE);
+		List<Board> favBoards = new ArrayList<Board>();
+		Board[] temp;
+		//Check boards
+		temp = GetBoardData("4chan");
+		for (int i=0; i < temp.length; i++){
+			if (prefs.getBoolean(temp[i].getChanName() + "//" + temp[i].getBoardName(), false)) {
+				favBoards.add(temp[i]);
+			}
+		}
+		temp = GetBoardData("7chan");
+		for (int i=0; i < temp.length; i++){
+			if (prefs.getBoolean(temp[i].getChanName() + "//" + temp[i].getBoardName(), false)) {
+				favBoards.add(temp[i]);
+			}
+		}
+		return favBoards;
+	}
 
 	public Board[] GetBoardData(String sChan) {
 		//TODO: Take all the text out of the code and into a XML

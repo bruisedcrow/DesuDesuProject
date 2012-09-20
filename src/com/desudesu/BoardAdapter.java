@@ -79,11 +79,11 @@ public class BoardAdapter extends BaseExpandableListAdapter{
 		holder.txtName.setText(sName);
 
 		//Setup buttons
-		holder.bFavourite.setTag(sName);
-		//holder.bFavourite.setFocusableInTouchMode(false);
+		String uniqueString = cTemp.getChanName() + "//" + cTemp.getBoardName();
+		holder.bFavourite.setTag(uniqueString);
 		SharedPreferences prefs = context.getSharedPreferences(
-				"com.derped", Context.MODE_PRIVATE);
-		if (prefs.getBoolean((String) sName, false)){
+				"com.desudesu", Context.MODE_PRIVATE);
+		if (prefs.getBoolean((String) uniqueString, false)){
 			holder.bFavourite.setImageResource(R.drawable.icon_fav2);
 		} else {
 			holder.bFavourite.setImageResource(R.drawable.icon_fav);
@@ -92,7 +92,7 @@ public class BoardAdapter extends BaseExpandableListAdapter{
 			public void onClick(View v)
 			{
 				SharedPreferences prefs = context.getSharedPreferences(
-						"com.derped", Context.MODE_PRIVATE);
+						"com.desudesu", Context.MODE_PRIVATE);
 				String prefNameBool = (String) v.getTag();
 				boolean current = prefs.getBoolean(prefNameBool, false);
 				prefs.edit().putBoolean(prefNameBool, ! current).commit();
