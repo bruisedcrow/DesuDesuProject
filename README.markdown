@@ -1,0 +1,4 @@
+﻿Read it bitches
+============================================================
+
+You're going to need use https://github.com/jfeinstein10/SlidingMenu as a library.
