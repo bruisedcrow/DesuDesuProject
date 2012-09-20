@@ -1,7 +1,7 @@
 package com.desudesu;
 
 public class Board extends Chan {
-	public Board(Chan chan, String name, String letter, String description) {
+	public Board(Chan chan, String letter, String name, String description) {
 		super(chan.getChanIcon(), chan.getChanName(), chan.getChanDescription(), chan.getChanURL());
 		this.bLetter = letter;
 		this.bName = name;

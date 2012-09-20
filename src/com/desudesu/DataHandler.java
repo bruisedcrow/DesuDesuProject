@@ -31,13 +31,13 @@ public class DataHandler {
 		int j = 0;
 		Chan temp[] = new Chan[n];
 		for(int i=0; i<n; i++){
-			if (! prefs.getBoolean(data[i].getChanName(), false)){
+			if (prefs.getBoolean(data[i].getChanName(), false)){
 				temp[j] = data[i];
 				j++;
 			}
 		}
 		for(int i=0; i<n; i++){
-			if (prefs.getBoolean(data[i].getChanName(), false)){
+			if (!prefs.getBoolean(data[i].getChanName(), false)){
 				temp[j] = data[i];
 				j++;
 			}
@@ -56,13 +56,13 @@ public class DataHandler {
 		int j = 0;
 		Board temp[] = new Board[n];
 		for(int i=0; i<n; i++){
-			if (! prefs.getBoolean(data[i].getBoardName(), false)){
+			if (prefs.getBoolean(data[i].getBoardName(), false)){
 				temp[j] = data[i];
 				j++;
 			}
 		}
 		for(int i=0; i<n; i++){
-			if (prefs.getBoolean(data[i].getBoardName(), false)){
+			if (! prefs.getBoolean(data[i].getBoardName(), false)){
 				temp[j] = data[i];
 				j++;
 			}
@@ -83,6 +83,7 @@ public class DataHandler {
 	}
 
 	public Board[] GetBoardData(String sChan) {
+		//TODO: Take all the text out of the code and into a XML
 		if (sChan=="4chan"){
 			Chan fourchan = new Chan(R.drawable.icon_4chan,"4chan",context.getResources().getString(R.string.chan_descr_4chan),context.getResources().getString(R.string.chan_URL_4chan));
 			Board board_data[] = new Board[] {
@@ -100,54 +101,54 @@ public class DataHandler {
 					new Board(fourchan, "o","Auto",""),
 					new Board(fourchan, "p","Photography",""),
 					new Board(fourchan, "r","Request",""),
-					new Board(fourchan, "s","Sexy Beautiful Women","http://boards.4chan.org/s/"),
-					new Board(fourchan, "t","Torrents","http://boards.4chan.org/t/"),
-					new Board(fourchan, "u","Yuri","http://boards.4chan.org/u/"),
-					new Board(fourchan, "v","Video Games","http://boards.4chan.org/v/"),
-					new Board(fourchan, "vg","Video Game Generals","http://boards.4chan.org/vg/"),
-					new Board(fourchan, "w","Anime/Wallpapers","http://boards.4chan.org/w/"),
-					new Board(fourchan, "wg","Wallpapers/General","http://boards.4chan.org/wg/"),
-					new Board(fourchan, "i","Oekaki","http://boards.4chan.org/i/"),
-					new Board(fourchan, "ic","Artwork/Critique","http://boards.4chan.org/ic/"),
-					new Board(fourchan, "r9k","ROBOT9001","http://boards.4chan.org/r9k/"),
-					new Board(fourchan, "cm","Cute/Male","http://boards.4chan.org/cm/"),
-					new Board(fourchan, "hm","Handsome Men","http://boards.4chan.org/hm/"),
-					new Board(fourchan,"y","Yaoi","http://boards.4chan.org/y/"),
-					new Board(fourchan,"3","3DCG","http://boards.4chan.org/3/"),
-					new Board(fourchan,"adv","Advice","http://boards.4chan.org/adv/"),
-					new Board(fourchan,"an","Animals & Nature","http://boards.4chan.org/an/"),
-					new Board(fourchan,"cgl","Cosplay & EGL","http://boards.4chan.org/cgl/"),
-					new Board(fourchan,"ck","Food & Cooking","http://boards.4chan.org/ck/"),
-					new Board(fourchan,"co","Comics & Cartoons","http://boards.4chan.org/co/"),
-					new Board(fourchan,"diy","Do-It-Yourself","http://boards.4chan.org/diy/"),
-					new Board(fourchan,"fa","Fashion","http://boards.4chan.org/fa/"),
-					new Board(fourchan,"fit","Health & Fitness","http://boards.4chan.org/fit/"),
-					new Board(fourchan,"hc","Hardcore","http://boards.4chan.org/hc/"),
-					new Board(fourchan,"int","International","http://boards.4chan.org/int/"),
-					new Board(fourchan,"jp","Otaku Culture","http://boards.4chan.org/jp/"),
-					new Board(fourchan,"lit","Literature","http://boards.4chan.org/lit/"),
-					new Board(fourchan,"mlp","Pony","http://boards.4chan.org/mlp/"),
-					new Board(fourchan,"mu","Music","http://boards.4chan.org/mu/"),
-					new Board(fourchan,"n","Transportation","http://boards.4chan.org/n/"),
-					new Board(fourchan,"po","Papercraft & Origami","http://boards.4chan.org/po/"),
-					new Board(fourchan,"pol","Politically Incorrect","http://boards.4chan.org/pol/"),
-					new Board(fourchan,"sci","Science & Math","http://boards.4chan.org/sci/"),
-					new Board(fourchan,"soc","Social","http://boards.4chan.org/soc/"),
-					new Board(fourchan,"sp","Sports","http://boards.4chan.org/sp/"),
-					new Board(fourchan,"tg","Traditional Games","http://boards.4chan.org/tg/"),
-					new Board(fourchan,"toy","Toys","http://boards.4chan.org/toy/"),
-					new Board(fourchan,"trv","Travel","http://boards.4chan.org/trv/"),
-					new Board(fourchan,"tv","Television & Film","http://boards.4chan.org/tv/"),
-					new Board(fourchan,"vp","Pokémon","http://boards.4chan.org/vp/"),
-					new Board(fourchan,"wsg","Worksafe GIF","http://boards.4chan.org/wsg/"),
-					new Board(fourchan,"x","Paranormal","http://boards.4chan.org/x/")
+					new Board(fourchan, "s","Sexy Beautiful Women",""),
+					new Board(fourchan, "t","Torrents",""),
+					new Board(fourchan, "u","Yuri",""),
+					new Board(fourchan, "v","Video Games",""),
+					new Board(fourchan, "vg","Video Game Generals",""),
+					new Board(fourchan, "w","Anime/Wallpapers",""),
+					new Board(fourchan, "wg","Wallpapers/General",""),
+					new Board(fourchan, "i","Oekaki",""),
+					new Board(fourchan, "ic","Artwork/Critique",""),
+					new Board(fourchan, "r9k","ROBOT9001",""),
+					new Board(fourchan, "cm","Cute/Male",""),
+					new Board(fourchan, "hm","Handsome Men",""),
+					new Board(fourchan,"y","Yaoi",""),
+					new Board(fourchan,"3","3DCG",""),
+					new Board(fourchan,"adv","Advice",""),
+					new Board(fourchan,"an","Animals & Nature",""),
+					new Board(fourchan,"cgl","Cosplay & EGL",""),
+					new Board(fourchan,"ck","Food & Cooking",""),
+					new Board(fourchan,"co","Comics & Cartoons",""),
+					new Board(fourchan,"diy","Do-It-Yourself",""),
+					new Board(fourchan,"fa","Fashion",""),
+					new Board(fourchan,"fit","Health & Fitness",""),
+					new Board(fourchan,"hc","Hardcore",""),
+					new Board(fourchan,"int","International",""),
+					new Board(fourchan,"jp","Otaku Culture",""),
+					new Board(fourchan,"lit","Literature",""),
+					new Board(fourchan,"mlp","Pony",""),
+					new Board(fourchan,"mu","Music",""),
+					new Board(fourchan,"n","Transportation",""),
+					new Board(fourchan,"po","Papercraft & Origami",""),
+					new Board(fourchan,"pol","Politically Incorrect",""),
+					new Board(fourchan,"sci","Science & Math",""),
+					new Board(fourchan,"soc","Social",""),
+					new Board(fourchan,"sp","Sports",""),
+					new Board(fourchan,"tg","Traditional Games",""),
+					new Board(fourchan,"toy","Toys",""),
+					new Board(fourchan,"trv","Travel",""),
+					new Board(fourchan,"tv","Television & Film",""),
+					new Board(fourchan,"vp","Pokémon",""),
+					new Board(fourchan,"wsg","Worksafe GIF",""),
+					new Board(fourchan,"x","Paranormal","")
 			};
 			return sortData(board_data);
 		} else if (sChan=="7chan"){
 			Chan sevenchan = new Chan(R.drawable.icon_7chan,"7chan",context.getResources().getString(R.string.chan_descr_7chan),context.getResources().getString(R.string.chan_URL_4chan));
 			Board board_data[] = new Board[] {
-					new Board(sevenchan,"a","Anime & Manga","http://boards.4chan.org/a/"), //TODO
-					new Board(sevenchan, "b","Random","http://boards.4chan.org/b/")
+					new Board(sevenchan,"a","Anime & Manga",""), //TODO
+					new Board(sevenchan, "b","Random","")
 
 			};
 			return sortData(board_data);
@@ -156,7 +157,7 @@ public class DataHandler {
 		}
 		Chan nullchan = new Chan(R.drawable.icon_7chan,"NULL",context.getResources().getString(R.string.chan_descr_7chan),context.getResources().getString(R.string.chan_URL_4chan));
 		Board null_data[] = new Board[] {
-				new Board(nullchan, "z","Null Board","http://boards.4chan.org/sci/"),
+				new Board(nullchan, "null","Null Board",""),
 		};
 		return null_data;
 	}

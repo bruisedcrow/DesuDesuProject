@@ -140,31 +140,36 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int shadow=0x7f02000b;
     }
     public static final class id {
-        public static final int bChanFav=0x7f040007;
+        public static final int bBoardFav=0x7f040005;
+        public static final int bChanFav=0x7f04000b;
         public static final int content_frame=0x7f040003;
         public static final int fullscreen=0x7f040001;
-        public static final int imgIcon=0x7f040005;
+        public static final int imgIcon=0x7f040009;
+        public static final int lPreviewThreads=0x7f040006;
         public static final int margin=0x7f040000;
-        public static final int menu_frame=0x7f040008;
+        public static final int menu_frame=0x7f04000c;
+        public static final int previewProgress=0x7f040007;
         public static final int selected_view=0x7f040002;
-        public static final int slidingmenulayout=0x7f04000a;
-        public static final int slidingmenumain=0x7f040009;
-        public static final int slidingmenurowicon=0x7f04000b;
-        public static final int slidingmenurowtitle=0x7f04000c;
-        public static final int txtChanDescription=0x7f040004;
-        public static final int txtChanName=0x7f040006;
+        public static final int slidingmenulayout=0x7f04000e;
+        public static final int slidingmenumain=0x7f04000d;
+        public static final int slidingmenurowicon=0x7f04000f;
+        public static final int slidingmenurowtitle=0x7f040010;
+        public static final int txtBoardName=0x7f040004;
+        public static final int txtChanDescription=0x7f040008;
+        public static final int txtChanName=0x7f04000a;
     }
     public static final class layout {
         public static final int content_frame=0x7f030000;
-        public static final int item_chan_child=0x7f030001;
-        public static final int item_chan_closed=0x7f030002;
-        public static final int item_chan_open=0x7f030003;
-        public static final int list=0x7f030004;
-        public static final int menu_frame=0x7f030005;
-        public static final int shadow=0x7f030006;
-        public static final int slidingmenumain=0x7f030007;
-        public static final int slidingmenumainlist=0x7f030008;
-        public static final int slidingmenurow=0x7f030009;
+        public static final int item_board_closed=0x7f030001;
+        public static final int item_chan_child=0x7f030002;
+        public static final int item_chan_closed=0x7f030003;
+        public static final int item_chan_open=0x7f030004;
+        public static final int list=0x7f030005;
+        public static final int menu_frame=0x7f030006;
+        public static final int shadow=0x7f030007;
+        public static final int slidingmenumain=0x7f030008;
+        public static final int slidingmenumainlist=0x7f030009;
+        public static final int slidingmenurow=0x7f03000a;
     }
     public static final class string {
         public static final int app_name=0x7f070000;

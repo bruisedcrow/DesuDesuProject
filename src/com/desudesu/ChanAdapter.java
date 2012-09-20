@@ -1,8 +1,11 @@
 package com.desudesu;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
@@ -11,12 +14,13 @@ import android.widget.TextView;
 
 
 public class ChanAdapter extends BaseExpandableListAdapter{
-
 	private Context context;
 	private Chan[] data;
-	public ChanAdapter(Context context, Chan[] data) {
+	ContentListFragment content;
+	public ChanAdapter(Context context, Chan[] data, ContentListFragment content) {
 		this.context = context;
 		this.data = data;
+		this.content = content;
 	}
 
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
@@ -39,7 +43,7 @@ public class ChanAdapter extends BaseExpandableListAdapter{
 		return 1;
 	}
 
-	public Object getGroup(int groupPosition) {
+	public Chan getGroup(int groupPosition) {
 		return data[groupPosition];
 	}
 
@@ -52,7 +56,7 @@ public class ChanAdapter extends BaseExpandableListAdapter{
 	}
 
 	// Return a group view. You can load your custom layout here.
-	public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
+	public View getGroupView(final int groupPosition, boolean isExpanded, View convertView,
 			ViewGroup parent) {
 		ChanHolder holder = null;
 		if (convertView == null) {
@@ -69,7 +73,21 @@ public class ChanAdapter extends BaseExpandableListAdapter{
 		Chan cTemp = data[groupPosition];
 		holder.txtName.setText(cTemp.getChanName());
 		holder.imgIcon.setImageResource(cTemp.getChanIcon());
-		
+		convertView.setOnClickListener(new OnClickListener(){
+
+			public void onClick(View v) {
+				//Go down to board level
+				content.setLevel(1, getGroup(groupPosition).getChanName(), "", 0);
+			}
+			
+		});
+		convertView.setOnLongClickListener(new OnLongClickListener(){
+
+			public boolean onLongClick(View v) {
+				return true;
+			}
+			
+		});
 		return convertView;
 	}
 
