@@ -5,13 +5,18 @@ import android.support.v4.app.ExpandableListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ListView;
 
 public class ContentListFragment extends ExpandableListFragment {
 	private ExpandableListAdapter mAdapter;
-	private int currentLevel = 1;
+	private int currentLevel = 0;
 	private String currentChan;
 	private String currentBoard;
 	private int currentThread;
@@ -20,23 +25,10 @@ public class ContentListFragment extends ExpandableListFragment {
 	}
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
-		currentChan = "4chan";
 		super.onActivityCreated(savedInstanceState);
-		DataHandler dh = new DataHandler(getActivity());
-
-		//ExpandableListAdapter mAdapter = new ChanAdapter(getActivity(), dh.GetChanData());
-		mAdapter = new BoardAdapter(getActivity(), dh.GetBoardData(currentChan));
-		setListAdapter(mAdapter);
+		setLevel(currentLevel,currentChan,currentBoard,currentThread);
 	}
 	
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO: Ideally this would work, but the ExpandListFragment is shitty so it doesn't
-		// Hence we're handling everything through the adapter
-		// Someone needs to rewrite ExpandListAdapter to make this work and make a onLongListItemClick too
-		super.onListItemClick(l, v, position, id);
-		Log.w("test","lol2");
-	}
 
 	public boolean upLevel(){
 		//Goes up one level in terms of the hierarchy shown in the content list view
@@ -45,7 +37,7 @@ public class ContentListFragment extends ExpandableListFragment {
 		case 0: //If at chan level return true, so back isn't used.
 			return false;
 		case 1: //If at board level go to Chan level
-			mAdapter = new ChanAdapter(getActivity(),dh.GetChanData(),this);
+			mAdapter = new ChanAdapter(getActivity(),dh.GetChanData());
 			setListAdapter(mAdapter);
 			currentLevel = 0;
 			return true;
@@ -58,12 +50,20 @@ public class ContentListFragment extends ExpandableListFragment {
 		return false;
 	}
 	
+	@Override
+    public void OnGroupClick(int groupPosition, Object data){
+		switch(currentLevel){
+		case 0:
+			setLevel(1,((Chan) data).getChanName(),"",0);
+		}
+    };
+    
 	public void setLevel(int level, String sChan, String sBoard, int iBoard){
 		DataHandler dh = new DataHandler(getActivity());
 		switch(level){
 		case 0:
 			currentLevel = 0;
-			mAdapter = new ChanAdapter(getActivity(),dh.GetChanData(),this);
+			mAdapter = new ChanAdapter(getActivity(),dh.GetChanData());
 			setListAdapter(mAdapter);
 			return;
 		case 1:

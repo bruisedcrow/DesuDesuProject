@@ -16,11 +16,9 @@ import android.widget.TextView;
 public class ChanAdapter extends BaseExpandableListAdapter{
 	private Context context;
 	private Chan[] data;
-	ContentListFragment content;
-	public ChanAdapter(Context context, Chan[] data, ContentListFragment content) {
+	public ChanAdapter(Context context, Chan[] data) {
 		this.context = context;
 		this.data = data;
-		this.content = content;
 	}
 
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
@@ -73,21 +71,6 @@ public class ChanAdapter extends BaseExpandableListAdapter{
 		Chan cTemp = data[groupPosition];
 		holder.txtName.setText(cTemp.getChanName());
 		holder.imgIcon.setImageResource(cTemp.getChanIcon());
-		convertView.setOnClickListener(new OnClickListener(){
-
-			public void onClick(View v) {
-				//Go down to board level
-				content.setLevel(1, getGroup(groupPosition).getChanName(), "", 0);
-			}
-			
-		});
-		convertView.setOnLongClickListener(new OnLongClickListener(){
-
-			public boolean onLongClick(View v) {
-				return true;
-			}
-			
-		});
 		return convertView;
 	}
 

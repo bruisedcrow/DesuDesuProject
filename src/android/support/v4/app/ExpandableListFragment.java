@@ -2,6 +2,7 @@ package android.support.v4.app;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -11,8 +12,10 @@ import android.view.View.OnCreateContextMenuListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -27,7 +30,7 @@ import android.widget.TextView;
  * All ASLv2 licensed.
  */
 public class ExpandableListFragment extends Fragment
-        implements OnCreateContextMenuListener, ExpandableListView.OnChildClickListener,
+        implements OnCreateContextMenuListener,
         ExpandableListView.OnGroupCollapseListener, ExpandableListView.OnGroupExpandListener {
 
     static final int INTERNAL_EMPTY_ID = 0x00ff0001;
@@ -40,13 +43,38 @@ public class ExpandableListFragment extends Fragment
             mList.focusableViewAvailable(mList);
         }
     };
-
-    final private AdapterView.OnItemClickListener mOnClickListener = new AdapterView.OnItemClickListener() {
-        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-            onListItemClick((ListView) parent, v, position, id);
-        }
+    
+    final private OnGroupClickListener onGroupClickListener = new OnGroupClickListener() {
+    	public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+    		//Run this on group click
+    		OnGroupClick(groupPosition, mAdapter.getGroup(groupPosition));
+			return true;
+    	}
     };
+    
+    final private OnItemLongClickListener onItemLongClickListener = new OnItemLongClickListener() {
 
+		public boolean onItemLongClick(AdapterView<?> arg0, View v,
+				int listPosition, long id) {
+			//Get group position
+			int groupPosition = ExpandableListView.getPackedPositionGroup(id);
+			if (mList.isGroupExpanded(groupPosition)) {
+				mList.collapseGroup(groupPosition);
+			} else {
+				mList.expandGroup(groupPosition);
+			}
+			
+			return true;
+		}
+    	
+    };
+    
+    //This shit gets overridden
+    public void OnGroupClick(int groupPosition, Object data){
+    	
+    	Log.w("test","lolyes");
+    };
+    
     ExpandableListAdapter mAdapter;
     ExpandableListView mList;
     View mEmptyView;
@@ -129,9 +157,6 @@ public class ExpandableListFragment extends Fragment
      * @param position The position of the view in the list
      * @param id       The row id of the item that was clicked
      */
-    public void onListItemClick(ListView l, View v, int position, long id) {
-    }
-
     /** Provide the cursor for the list view. */
     public void setListAdapter(ExpandableListAdapter adapter) {
         boolean hadAdapter = mAdapter != null;
@@ -278,7 +303,8 @@ public class ExpandableListFragment extends Fragment
             }
         }
         mListShown = true;
-        mList.setOnItemClickListener(mOnClickListener);
+        mList.setOnGroupClickListener(onGroupClickListener);
+        mList.setOnItemLongClickListener(onItemLongClickListener);
         if (mAdapter != null) {
             setListAdapter(mAdapter);
         } else {
@@ -303,7 +329,6 @@ public class ExpandableListFragment extends Fragment
         if (emptyView != null) {
             mList.setEmptyView(emptyView);
         }
-        mList.setOnChildClickListener(this);
         mList.setOnGroupExpandListener(this);
         mList.setOnGroupCollapseListener(this);
 
@@ -315,17 +340,10 @@ public class ExpandableListFragment extends Fragment
 
 	public void onGroupExpand(int groupPosition) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void onGroupCollapse(int groupPosition) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	public boolean onChildClick(ExpandableListView parent, View v,
-			int groupPosition, int childPosition, long id) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }
