@@ -33,4 +33,12 @@ public class Board extends Chan {
 		//Use letter and chan URL to get board URL
 		return getChanURL() + getLetter() + "/";
 	}
+	
+	public String getBoardUniqueName(){
+		return getChanName() + "//" + bName;
+	}
+	
+	public Chan getChan(){
+		return new Chan(getChanIcon(), getChanName(), getChanDescription(), getChanURL());
+	}
 }

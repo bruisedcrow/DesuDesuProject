@@ -8,14 +8,17 @@ import com.slidingmenu.lib.SlidingMenu.OnOpenListener;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class Main extends BaseActivity {
 	//Expandable list fragment that switches between the chan, boards and threads data
 	ContentListFragment cContent;
 	BehindAdapter bAdapter;
-	List<Board> favBoards; //Really should be List<Board> but java is lame
+	List<Board> favBoards;
+	List<ChanThread> watThreads;
 	//List<ThreadChan> watchThreads;
 
 	public Main() {
@@ -25,8 +28,28 @@ public class Main extends BaseActivity {
 	private void updateBehind(){
 		//May want to put this in an AsyncTask
 		DataHandler dh = new DataHandler(this);
+		//TODO: Imrpove performance here
 		favBoards = dh.GetFavBoards(); //May want to cache these using favBoards, then check whether they've changed to improve performance
-		mFrag.setListAdapter(new BehindAdapter(this,R.layout.item_behind_favchan,favBoards));
+		watThreads = dh.GetWatThreads(); //Again may want to cache this somehow
+		mFrag.setListAdapter(new BehindAdapter(this,R.layout.item_behind_favchan,favBoards,watThreads));
+		mFrag.getListView().setOnItemClickListener(new OnItemClickListener(){
+
+			public void onItemClick(AdapterView<?> arg0, View v, int position,
+					long id) {
+
+				// TODO Auto-generated method stub
+				Object[] dataAndViewHolder = (Object[]) v.getTag();
+				Object data = dataAndViewHolder[1];
+				if (data instanceof Board){
+					cContent.setLevel(2, data);
+					showAbove();
+				} else if (data instanceof ChanThread) {
+					
+				}
+			
+			}
+			
+		});
 	}
 
 	@Override
@@ -40,7 +63,6 @@ public class Main extends BaseActivity {
 		mFrag = new ListFragment();
 		t.replace(R.id.menu_frame, mFrag);
 		t.commit();
-		updateBehind();
 		getSlidingMenu().setOnOpenListener(new OnOpenListener(){
 			public void onOpen() {
 				//TODO: Put this in a AsyncTask to increase performance
@@ -58,8 +80,6 @@ public class Main extends BaseActivity {
 
 		setSlidingActionBarEnabled(true);
 	}
-
-
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {

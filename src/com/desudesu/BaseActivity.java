@@ -32,6 +32,7 @@ public class BaseActivity extends SlidingFragmentActivity {
 		
 		// customize the SlidingMenu
 		SlidingMenu sm = getSlidingMenu();
+		sm.setBehindScrollScale(0);
 		sm.setShadowWidthRes(R.dimen.shadow_width);
 		sm.setShadowDrawable(R.drawable.shadow);
 		sm.setBehindOffsetRes(R.dimen.actionbar_home_width);

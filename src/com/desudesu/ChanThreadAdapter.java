@@ -1,22 +1,25 @@
 package com.desudesu;
 
+import java.util.List;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
-public class BoardAdapter extends BaseExpandableListAdapter{
+public class ChanThreadAdapter extends BaseExpandableListAdapter{
 
 	private Context context;
-	private Board[] data;
-	public BoardAdapter(Context context, Board[] data) {
+	private List<ChanThread> data;
+	public ChanThreadAdapter(Context context, List<ChanThread> data) {
 		this.context = context;
 		this.data = data;
 	}
@@ -27,7 +30,7 @@ public class BoardAdapter extends BaseExpandableListAdapter{
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = infalInflater.inflate(R.layout.item_thread_closed, null);
+			//convertView = infalInflater.inflate(R.layout., null);
 //			txtDescription = (TextView) convertView.findViewById(R.id.txtChanDescription);
 //			convertView.setTag(txtDescription);
 		} else {
@@ -43,11 +46,11 @@ public class BoardAdapter extends BaseExpandableListAdapter{
 	}
 
 	public Board getGroup(int groupPosition) {
-		return data[groupPosition];
+		return data.get(groupPosition);
 	}
 
 	public int getGroupCount() {
-		return data.length;
+		return data.size();
 	}
 
 	public long getGroupId(int groupPosition) {
@@ -57,31 +60,37 @@ public class BoardAdapter extends BaseExpandableListAdapter{
 	// Return a group view. You can load your custom layout here.
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
 			ViewGroup parent) {
-		BoardHolder holder = null;
+		ThreadHolder holder = null;
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = infalInflater.inflate(R.layout.item_board_closed, null); //TODO: Tailor item_board_child instead of using item_board_closed
+			convertView = infalInflater.inflate(R.layout.item_thread_closed, null);
 			
-			holder = new BoardHolder();
-			holder.imgIcon = (ImageView)convertView.findViewById(R.id.imgIcon);
-			holder.txtName = (TextView)convertView.findViewById(R.id.txtBoardName);
-			holder.bFavourite = (ImageButton)convertView.findViewById(R.id.bBoardFav);
+			holder = new ThreadHolder();
+			holder.imgTheadImg = (ImageView)convertView.findViewById(R.id.imgThreadImg);
+			holder.txtName = (TextView)convertView.findViewById(R.id.txtThreadName);
+			holder.txtPost = (TextView)convertView.findViewById(R.id.txtThreadPost);
+			holder.bFavourite = (ImageButton)convertView.findViewById(R.id.bThreadFav);
 			convertView.setTag(holder);
-		} 		else
-		{
-			holder = (BoardHolder)convertView.getTag();
+		} else {
+			holder = (ThreadHolder)convertView.getTag();
 		}
-		
-		//Set up content
-		Board cTemp = data[groupPosition];
-		holder.txtName.setText(cTemp.getBoardName());
+		//Setup content
+		ChanThread tTemp = data.get(groupPosition);
+		int sId = tTemp.getId();
 
+		holder.txtName.setText(tTemp.getName());
+		Html HT = null;
+		holder.txtPost.setText(HT.fromHtml(tTemp.getPost()));
+		
+		//UrlImageViewHelper.setUrlDrawable(holder.imgTheadImg, tTemp.getThumbUrl());
+		
 		//Setup buttons
-		String uniqueString = cTemp.getBoardUniqueName();
+		String uniqueString = tTemp.getChanThreadUniqueName();
 		holder.bFavourite.setTag(uniqueString);
 		SharedPreferences prefs = context.getSharedPreferences(
-				"com.desudesu", Context.MODE_PRIVATE);
+				"com.desudesu.watchedthreads", Context.MODE_PRIVATE);
+		
 		if (prefs.getBoolean((String) uniqueString, false)){
 			holder.bFavourite.setImageResource(R.drawable.icon_fav2);
 		} else {
@@ -91,14 +100,13 @@ public class BoardAdapter extends BaseExpandableListAdapter{
 			public void onClick(View v)
 			{
 				SharedPreferences prefs = context.getSharedPreferences(
-						"com.desudesu", Context.MODE_PRIVATE);
+						"com.desudesu.watchedthreads", Context.MODE_PRIVATE);
 				String prefNameBool = (String) v.getTag();
 				boolean current = prefs.getBoolean(prefNameBool, false);
 				prefs.edit().putBoolean(prefNameBool, ! current).commit();
 				notifyDataSetChanged();
 			}
 		});
-		
 		return convertView;
 	}
 
@@ -111,25 +119,18 @@ public class BoardAdapter extends BaseExpandableListAdapter{
 	}
 
 	public String getChild(int groupPosition, int childPosition) {
-		return data[groupPosition].getChanDescription();
+		return data.get(groupPosition).getChanDescription();
 	}
 
 	public long getChildId(int groupPosition, int childPosition) {
 		return childPosition;
 	}
-
-	static class BoardHolder
-	{
-		ImageView imgIcon;
-		TextView txtName;
-		TextView txtDescriptions;
-		ImageButton bFavourite;
-	}
+	
 	static class ThreadHolder
 	{
-		ImageView imgIcon;
+		ImageView imgTheadImg;
 		TextView txtName;
-		TextView txtDescriptions;
+		TextView txtPost;
 		ImageButton bFavourite;
 	}
 }

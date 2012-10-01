@@ -1,20 +1,17 @@
 package com.desudesu;
 
-public class ChanThread {
+public class ChanThread extends Board {
 	private int id;
-	private String name;
+	private String sOPName;
 	private String sPost;
 	private String thumbUrl;
 	private String imageUrl;
-	private String sChan;
-	private String sBoard;
-	private String threadUrl;
 	
-	public ChanThread(int id, String name, String sPost, String thumbUrl,
+	public ChanThread(Board board, int id, String sOPName, String sPost, String thumbUrl,
 			String imageUrl) {
-		super();
+		super(board.getChan(), board.getLetter(), board.getBoardName(), board.getBoardDescription());
 		this.id = id;
-		this.name = name;
+		this.sOPName = sOPName;
 		this.sPost = sPost;
 		this.thumbUrl = thumbUrl;
 		this.imageUrl = imageUrl;
@@ -26,13 +23,13 @@ public class ChanThread {
 		this.id = id;
 	}
 	public String getName() {
-		if (name == "Null") {
+		if (sOPName == "Null") {
 			return "Anonymous " + id;
 		}
-		return name + " " + id;
+		return sOPName + " " + id;
 	}
-	public void setName(String title) {
-		this.name = name;
+	public void setName(String sOPName) {
+		this.sOPName = sOPName;
 	}
 	public String getPost() {
 		return sPost;
@@ -52,22 +49,8 @@ public class ChanThread {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-	public String getChan() {
-		return sChan;
-	}
-	public void setChan(String sChan) {
-		this.sChan = sChan;
-	}
-	public String getThreadUrl() {
-		return threadUrl;
-	}
-	public void setThreadUrl(String threadUrl) {
-		this.threadUrl = threadUrl;
-	}
-	public String getBoard() {
-		return sBoard;
-	}
-	public void setBoard(String sBoard) {
-		this.sBoard = sBoard;
+	
+	public String getChanThreadUniqueName(){
+		return getChanName() + "//" + getBoardName() + "//" + id;
 	}
 }
