@@ -1,16 +1,22 @@
 package com.desudesu;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.desudesu.BehindAdapter.FavBoardHolder;
+import com.desudesu.BehindAdapter.WatThreadHolder;
 import com.slidingmenu.lib.SlidingMenu.OnOpenListener;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class Main extends BaseActivity {
@@ -36,25 +42,32 @@ public class Main extends BaseActivity {
 
 			public void onItemClick(AdapterView<?> arg0, View v, int position,
 					long id) {
-
-				// TODO Auto-generated method stub
-				Object[] dataAndViewHolder = (Object[]) v.getTag();
-				Object data = dataAndViewHolder[1];
-				if (data instanceof Board){
-					cContent.setLevel(2, data);
+				Object holder = v.getTag();
+				Log.w("test","HERE1");
+				if (holder instanceof FavBoardHolder){
+					//Then clicked on favourited board
+					Log.w("test","HERE2");
+					cContent.setLevel(new String[]{((FavBoardHolder)holder).sChan,((FavBoardHolder)holder).sBoard});
 					showAbove();
-				} else if (data instanceof ChanThread) {
-					
+				} else if (holder instanceof WatThreadHolder) {
+
 				}
-			
+
 			}
-			
+
+
 		});
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		DataBaseHelper myDbHelper = new DataBaseHelper(this);
+		try {
+			myDbHelper.createDataBase();
+		} catch (IOException ioe) {
+			throw new Error("Unable to create database");
+		}
 
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);

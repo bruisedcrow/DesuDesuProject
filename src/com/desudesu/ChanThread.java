@@ -9,7 +9,7 @@ public class ChanThread extends Board {
 	
 	public ChanThread(Board board, int id, String sOPName, String sPost, String thumbUrl,
 			String imageUrl) {
-		super(board.getChan(), board.getLetter(), board.getBoardName(), board.getBoardDescription());
+		super(board.getChan(), board.getLetter(), board.getBoardName(), board.getBoardDescription(),board.isFavourite());
 		this.id = id;
 		this.sOPName = sOPName;
 		this.sPost = sPost;

@@ -1,5 +1,9 @@
 package android.support.v4.app;
 
+import com.desudesu.Board;
+import com.desudesu.Chan;
+import com.desudesu.ChanThread;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -47,7 +51,15 @@ public class ExpandableListFragment extends Fragment
     final private OnGroupClickListener onGroupClickListener = new OnGroupClickListener() {
     	public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
     		//Run this on group click
-    		OnGroupClick(groupPosition, mAdapter.getGroup(groupPosition));
+    		Object data = mAdapter.getGroup(groupPosition);
+    		//Get names to identify whats been clicked
+    		if (data instanceof ChanThread){
+    			OnGroupClick(groupPosition, new String[]{((ChanThread) data).getChanName(),((ChanThread) data).getBoardName(),"" + ((ChanThread) data).getId()});
+    		} else if (data instanceof Board){
+    			OnGroupClick(groupPosition, new String[]{((Board) data).getChanName(),((Board) data).getBoardName()});
+    		} else if (data instanceof Chan){
+    			OnGroupClick(groupPosition, new String[]{((Chan) data).getChanName()});
+    		}
 			return true;
     	}
     };
@@ -70,9 +82,8 @@ public class ExpandableListFragment extends Fragment
     };
     
     //This shit gets overridden
-    public void OnGroupClick(int groupPosition, Object data){
-    	
-    	Log.w("test","lolyes");
+    public void OnGroupClick(int groupPosition, String[] hierarchyNames){
+    	Log.w("WARNING: ","You're supposed to override this shit");
     };
     
     ExpandableListAdapter mAdapter;

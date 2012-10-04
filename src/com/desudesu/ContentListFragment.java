@@ -3,7 +3,6 @@ package com.desudesu;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ExpandableListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ public class ContentListFragment extends ExpandableListFragment {
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		setLevel(currentLevel,null);
+		setLevel(new String[]{});
 	}
 
 
@@ -31,32 +30,22 @@ public class ContentListFragment extends ExpandableListFragment {
 		case 0: //If at chan level return true, so back button isn't used up by this action.
 			return false;
 		case 1: //If at board level go to Chan level
-			setLevel(0,null);
+			setLevel(new String[]{});
 			return true;
 		case 2: //If at thread level go to board level
-			setLevel(1,dh.GetChanByName(currentChan));
+			setLevel(new String[]{currentChan});
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public void OnGroupClick(int groupPosition, Object data){
+	public void OnGroupClick(int groupPosition, String[] hierarchyNames){
 		//Change level on item click
-		switch(currentLevel){
-		case 0:
-			setLevel(1,(Chan) data);
-			return;
-		case 1:
-			setLevel(2,(Board) data);
-			return;
-		case 2:
-			//setLevel(3,((ChanThread) data).getChanName(),((ChanThread) data).getBoardName(),((ChanThread) data).get
-			return;
-		}
+		setLevel(hierarchyNames);
 	};
 
-	public void setLevel(final int level, final Object data){
+	public void setLevel(final String[] hierarchyNames){
 		class setLevelThread extends AsyncTask<Void,Void,ExpandableListAdapter> {
 			@Override
 			protected void onPreExecute() {
@@ -69,19 +58,19 @@ public class ContentListFragment extends ExpandableListFragment {
 				//Get the list data
 				//TODO: Animate progressbar
 				DataHandler dh = new DataHandler(getActivity());
-				switch(level){
+				switch(hierarchyNames.length){
 				case 0:
 					currentLevel = 0;
 					return new ChanAdapter(getActivity(),dh.GetChanData());
 				case 1:
 					currentLevel = 1;
-					currentChan = ((Chan) data).getChanName();
-					return new BoardAdapter(getActivity(),dh.GetBoardData((Chan) data));
+					currentChan = hierarchyNames[0];
+					return new BoardAdapter(getActivity(),dh.GetBoardDataByName(currentChan));
 				case 2:
-					currentChan = ((Board) data).getChanName();
-					currentBoard = ((Board) data).getBoardName();
+					currentChan = hierarchyNames[0];
+					currentBoard = hierarchyNames[1];
 					currentLevel = 2;
-					return new ChanThreadAdapter(getActivity(), dh.GetChanThreadData((Board) data));
+					return new ChanThreadAdapter(getActivity(), dh.GetChanThreadDataByNames(currentChan, currentBoard));
 				} //TODO: Add extra case for viewing archived threads
 				return null;
 			}

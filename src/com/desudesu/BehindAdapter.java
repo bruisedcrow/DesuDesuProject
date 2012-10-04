@@ -43,8 +43,6 @@ public class BehindAdapter extends ArrayAdapter<Object> {
 		}
 	}
 
-
-
 	@Override
 	public int getViewTypeCount() {
 		// TODO Auto-generated method stub
@@ -117,20 +115,20 @@ public class BehindAdapter extends ArrayAdapter<Object> {
 			FavBoardHolder holder = null;
 			if(convertView == null)
 			{
-				Log.w("test","lol" + ((Board)data).getBoardName());
 				LayoutInflater inflater = ((Activity)context).getLayoutInflater();
 				convertView = inflater.inflate(layoutResourceId, parent, false);
 
 				holder = new FavBoardHolder();
 				holder.imgIcon = (ImageView)convertView.findViewById(R.id.imgIcon);
 				holder.txtName = (TextView)convertView.findViewById(R.id.txtChanName);
-				Object[] viewAndDataHolder = {holder,data};
-				convertView.setTag(viewAndDataHolder);
+				holder.sChan = ((Board) data).getChanName();
+				holder.sBoard = ((Board) data).getBoardName();
+				convertView.setTag(holder);
 			} else {
-				Object[] viewAndDataHolder = (Object[]) convertView.getTag();
-				holder = (FavBoardHolder) viewAndDataHolder[0];
-				viewAndDataHolder[1] = data;
-				convertView.setTag(viewAndDataHolder);
+				holder = (FavBoardHolder) convertView.getTag();
+				holder.sChan = ((Board) data).getChanName();
+				holder.sBoard = ((Board) data).getBoardName();
+				convertView.setTag(holder);
 			}
 			holder.txtName.setText(((Board) data).getBoardName());
 			holder.imgIcon.setImageResource(((Board) data).getChanIcon());
@@ -140,11 +138,14 @@ public class BehindAdapter extends ArrayAdapter<Object> {
 	}
 	static class FavBoardHolder
 	{
+		String sChan;
+		String sBoard;
 		ImageView imgIcon;
 		TextView txtName;
 	}
 	static class WatThreadHolder
 	{
+		
 		ImageView imgIcon;
 		ImageView imgTheadImg;
 		TextView txtPost;

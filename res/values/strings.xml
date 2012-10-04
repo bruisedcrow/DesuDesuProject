@@ -3,11 +3,6 @@
 
     <string name="app_name">DesuDesu</string>
     <string name="content_title">DesuDesu</string>
-    <string name="chan_descr_4chan">4chan is a simple image-based bulletin board where anyone can post comments and share images. There are boards dedicated to a variety of topics, from Japanese animation and culture to videogames, music, and photography. Users do not need to register an account before participating in the community. Feel free to click on a board that interests you and jump right in!</string>
-    <string name="chan_descr_7chan">Image board like that of 2chan and 4chan. Many anonymous fled 4ailchan after /b/day and set up home here.</string>
-    <string name="chan_descr_420chan">A place where druggies (mostly stoners) go to hang out and telling how high they are and asking for movies or help with getting high and people are at the cannabis section known as /weed/.</string>
-    <string name="chan_URL_4chan">http://www.4chan.org/</string>
-    <string name="chan_URL_7chan">http://www.7chan.org/</string>
-    <string name="chan_URL_420chan">http://www.420chan.org/</string>
+
 
 </resources>

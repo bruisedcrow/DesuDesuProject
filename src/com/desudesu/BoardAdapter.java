@@ -1,7 +1,6 @@
 package com.desudesu;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +17,8 @@ public class BoardAdapter extends BaseExpandableListAdapter{
 	private Board[] data;
 	public BoardAdapter(Context context, Board[] data) {
 		this.context = context;
-		this.data = data;
+		DataHandler dh = new DataHandler(context);
+		this.data = dh.sortData(data);
 	}
 
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
@@ -78,23 +78,27 @@ public class BoardAdapter extends BaseExpandableListAdapter{
 		holder.txtName.setText(cTemp.getBoardName());
 
 		//Setup buttons
-		String uniqueString = cTemp.getBoardUniqueName();
-		holder.bFavourite.setTag(uniqueString);
-		SharedPreferences prefs = context.getSharedPreferences(
-				"com.desudesu", Context.MODE_PRIVATE);
-		if (prefs.getBoolean((String) uniqueString, false)){
+		ViewInfoHolder currentInfo = new ViewInfoHolder();
+		currentInfo.sBoard = cTemp.getBoardName();
+		currentInfo.sChan = cTemp.getChanName();
+		if (cTemp.isFavourite()){
 			holder.bFavourite.setImageResource(R.drawable.icon_fav2);
+			currentInfo.clicked = true;
+			holder.bFavourite.setTag(currentInfo);
 		} else {
 			holder.bFavourite.setImageResource(R.drawable.icon_fav);
+			currentInfo.clicked = false;
+			holder.bFavourite.setTag(currentInfo);
 		}
 		holder.bFavourite.setOnClickListener(new OnClickListener() {  
 			public void onClick(View v)
 			{
-				SharedPreferences prefs = context.getSharedPreferences(
-						"com.desudesu", Context.MODE_PRIVATE);
-				String prefNameBool = (String) v.getTag();
-				boolean current = prefs.getBoolean(prefNameBool, false);
-				prefs.edit().putBoolean(prefNameBool, ! current).commit();
+				ViewInfoHolder oldInfo = (ViewInfoHolder) v.getTag();
+				DataHandler dh = new DataHandler(context);
+				//TODO: Put this in AsyncTask maybe?
+				dh.SetBoardFav(oldInfo.sChan, oldInfo.sBoard, oldInfo.clicked);
+				//Update current data
+				data = dh.sortData(dh.GetBoardDataByName(oldInfo.sChan));
 				notifyDataSetChanged();
 			}
 		});
@@ -131,5 +135,12 @@ public class BoardAdapter extends BaseExpandableListAdapter{
 		TextView txtName;
 		TextView txtDescriptions;
 		ImageButton bFavourite;
+	}
+	
+	static class ViewInfoHolder
+	{
+		String sChan;
+		String sBoard;
+		boolean clicked;
 	}
 }
