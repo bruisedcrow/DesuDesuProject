@@ -1,56 +1,61 @@
 package com.desudesu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChanThread extends Board {
-	private int id;
+	private int iOPId;
 	private String sOPName;
-	private String sPost;
-	private String thumbUrl;
-	private String imageUrl;
+	private String sOPPost;
+	private String sImageName;
+	private String sImageExtension;
+	private List<Post> posts;
 	
-	public ChanThread(Board board, int id, String sOPName, String sPost, String thumbUrl,
-			String imageUrl) {
-		super(board.getChan(), board.getLetter(), board.getBoardName(), board.getBoardDescription(),board.isFavourite());
-		this.id = id;
+	public ChanThread(Board board, int id, String sOPName, String sPost, String sImageName, String sImageExtension) {
+		super(board.getChan(), board.getBoardLetter(), board.getBoardName(), board.getBoardDescription(),board.isFavourite());
+		this.iOPId = id;
 		this.sOPName = sOPName;
-		this.sPost = sPost;
-		this.thumbUrl = thumbUrl;
-		this.imageUrl = imageUrl;
+		this.sOPPost = sPost;
+		this.sImageName = sImageName;
+		this.sImageExtension = sImageExtension;
+		posts = new ArrayList<Post>();
 	}
-	public int getId() {
-		return id;
+	public int getOPId() {
+		return iOPId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setOPId(int id) {
+		this.iOPId = id;
 	}
-	public String getName() {
+	public String getOPName() {
 		if (sOPName == "Null") {
-			return "Anonymous " + id;
+			return "Anonymous " + iOPId;
 		}
-		return sOPName + " " + id;
+		return sOPName + " " + iOPId;
 	}
-	public void setName(String sOPName) {
+	public void setOPName(String sOPName) {
 		this.sOPName = sOPName;
 	}
-	public String getPost() {
-		return sPost;
+	public String getOPPost() {
+		return sOPPost;
 	}
-	public void setPost(String sPost) {
-		this.sPost = sPost;
+	public void setOPPost(String sPost) {
+		this.sOPPost = sPost;
 	}
 	public String getThumbUrl() {
-		return thumbUrl;
+		return "http://0.thumbs.4chan.org/" + getBoardLetter() + "/thumb/" + sImageName + "s.jpg";
 	}
-	public void setThumbUrl(String thumbUrl) {
-		this.thumbUrl = thumbUrl;
+	public void setImageName(String sImageName) {
+		this.sImageName = sImageName;
+	}
+	
+	public void setImageExtension(String sImageExtension) {
+		this.sImageExtension = sImageExtension;
 	}
 	public String getImageUrl() {
-		return imageUrl;
-	}
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+		return "https://images.4chan.org/" + getBoardLetter() + "/src/" + sImageName + sImageExtension;
 	}
 	
 	public String getChanThreadUniqueName(){
-		return getChanName() + "//" + getBoardName() + "//" + id;
+		return getChanName() + "//" + getBoardName() + "//" + iOPId;
 	}
 }

@@ -105,7 +105,7 @@ public class BehindAdapter extends ArrayAdapter<Object> {
 			//Setup content
 
 			Html HT = null;
-			holder.txtPost.setText(HT.fromHtml(((ChanThread) data).getPost()));
+			holder.txtPost.setText(HT.fromHtml(((ChanThread) data).getOPPost()));
 			holder.imgIcon.setImageResource(((ChanThread) data).getChanIcon());
 			//UrlImageViewHelper.setUrlDrawable(holder.imgTheadImg, tTemp.getThumbUrl());
 			return convertView;

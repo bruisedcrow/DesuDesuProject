@@ -13,10 +13,10 @@ public class Board extends Chan {
 	private String bName;
 	private String bDescription;
 	private boolean favourite;
-	public String getLetter() {
+	public String getBoardLetter() {
 		return bLetter;
 	}
-	public void setLetter(String letter) {
+	public void setBoardLetter(String letter) {
 		this.bLetter = letter;
 	}
 	public String getBoardName() {
@@ -33,7 +33,7 @@ public class Board extends Chan {
 	}
 	public String getBoardURL(){
 		//Use letter and chan URL to get board URL
-		return getChanURL() + getLetter() + "/";
+		return "http://" + getChanURL() + "/" + getBoardLetter() + "/";
 	}
 	
 	public String getBoardUniqueName(){

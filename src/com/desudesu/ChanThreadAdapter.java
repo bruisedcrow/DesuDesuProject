@@ -2,9 +2,12 @@ package com.desudesu;
 
 import java.util.List;
 
+import com.loopj.android.image.SmartImageView;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +70,7 @@ public class ChanThreadAdapter extends BaseExpandableListAdapter{
 			convertView = infalInflater.inflate(R.layout.item_thread_closed, null);
 			
 			holder = new ThreadHolder();
-			holder.imgTheadImg = (ImageView)convertView.findViewById(R.id.imgThreadImg);
+			holder.imgTheadImg = (SmartImageView)convertView.findViewById(R.id.imgThreadImg);
 			holder.txtName = (TextView)convertView.findViewById(R.id.txtThreadName);
 			holder.txtPost = (TextView)convertView.findViewById(R.id.txtThreadPost);
 			holder.bFavourite = (ImageButton)convertView.findViewById(R.id.bThreadFav);
@@ -77,14 +80,16 @@ public class ChanThreadAdapter extends BaseExpandableListAdapter{
 		}
 		//Setup content
 		ChanThread tTemp = data.get(groupPosition);
-		int sId = tTemp.getId();
+		int sId = tTemp.getOPId();
 
-		holder.txtName.setText(tTemp.getName());
+		holder.txtName.setText(tTemp.getOPName());
 		Html HT = null;
-		holder.txtPost.setText(HT.fromHtml(tTemp.getPost()));
+		holder.txtPost.setText(HT.fromHtml(tTemp.getOPPost()));
 		
-		//UrlImageViewHelper.setUrlDrawable(holder.imgTheadImg, tTemp.getThumbUrl());
+		Log.w("test","lol: "+ tTemp.getThumbUrl());
+		holder.imgTheadImg.setImageUrl(tTemp.getThumbUrl());
 		
+		//TODO: REDO THIS USING SQL
 		//Setup buttons
 		String uniqueString = tTemp.getChanThreadUniqueName();
 		holder.bFavourite.setTag(uniqueString);
@@ -128,7 +133,7 @@ public class ChanThreadAdapter extends BaseExpandableListAdapter{
 	
 	static class ThreadHolder
 	{
-		ImageView imgTheadImg;
+		SmartImageView imgTheadImg;
 		TextView txtName;
 		TextView txtPost;
 		ImageButton bFavourite;

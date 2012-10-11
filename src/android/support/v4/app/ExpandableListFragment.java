@@ -54,7 +54,7 @@ public class ExpandableListFragment extends Fragment
     		Object data = mAdapter.getGroup(groupPosition);
     		//Get names to identify whats been clicked
     		if (data instanceof ChanThread){
-    			OnGroupClick(groupPosition, new String[]{((ChanThread) data).getChanName(),((ChanThread) data).getBoardName(),"" + ((ChanThread) data).getId()});
+    			OnGroupClick(groupPosition, new String[]{((ChanThread) data).getChanName(),((ChanThread) data).getBoardName(),"" + ((ChanThread) data).getOPId()});
     		} else if (data instanceof Board){
     			OnGroupClick(groupPosition, new String[]{((Board) data).getChanName(),((Board) data).getBoardName()});
     		} else if (data instanceof Chan){

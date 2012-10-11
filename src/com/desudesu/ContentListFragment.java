@@ -70,7 +70,7 @@ public class ContentListFragment extends ExpandableListFragment {
 					currentChan = hierarchyNames[0];
 					currentBoard = hierarchyNames[1];
 					currentLevel = 2;
-					return new ChanThreadAdapter(getActivity(), dh.GetChanThreadDataByNames(currentChan, currentBoard));
+					return new ChanThreadAdapter(getActivity(), dh.GetChanThreadDataByNames(currentChan, currentBoard,0));
 				} //TODO: Add extra case for viewing archived threads
 				return null;
 			}
